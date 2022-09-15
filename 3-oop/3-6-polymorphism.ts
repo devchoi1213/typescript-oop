@@ -1,7 +1,8 @@
 {
     type CoffeeCup = {
         shots: number;
-        hasMilk: boolean;
+        hasMilk?: boolean;
+        hasSugar?: boolean;
     }
 
     interface CoffeeMaker {
@@ -79,8 +80,26 @@
         }
     }
 
-    const machine = new CoffeeMachine(23);
-    const latteMachine = new CaffeLatteMachine(23, 'SSSSS');
-    const coffee = latteMachine.makeCoffee(2);
-    console.log(coffee);
+    class SweetCoffeeMachine extends CoffeeMachine {
+        makeCoffee(shots: number): CoffeeCup {
+            const coffee = super.makeCoffee(shots);
+            return {
+                ...coffee,
+                hasMilk: true,
+                hasSugar: true
+            };
+        }
+    }
+
+    // CoffeeMachine 클래스가 CoffeeMaker 인터페이스를 구현하므로, CaffeLatteMachine, SweetCoffeeMachine 모두 자기 자신과 CoffeeMachine 또는 CoffeeMaker 타입이 될 수 있다
+    const machines: CoffeeMaker[] = [
+        new CoffeeMachine(16),
+        new CaffeLatteMachine(16, 'SSS'),
+        new SweetCoffeeMachine(16)
+    ];
+    machines.forEach(machines => {
+        const coffee = machines.makeCoffee(2);
+        console.log(coffee);
+        console.log('-----------------------')
+    })
 }
