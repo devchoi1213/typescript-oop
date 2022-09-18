@@ -1,6 +1,16 @@
 {
+    type NetWorkErrorState = {
+        result: 'fail';
+        reason: 'offline' | 'down' | 'timeout';
+    };
+
+    type SuccessState = {
+        result: 'success';
+    }
+
+    type ResultState = SuccessState | NetWorkErrorState;
     class NetworkClient {
-        tryConnect(): void {
+        tryConnect(): ResultState {
             throw new Error('no network');
         }
     }
